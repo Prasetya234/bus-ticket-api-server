@@ -1,0 +1,22 @@
+CREATE TABLE trevel (
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    price FLOAT NOT NULL,
+    description VARCHAR(255),
+    window INT,
+    company_id VARCHAR(255),
+    start_destionation INT,
+    end_destination INT,
+    start_location VARCHAR(255),
+    end_location VARCHAR(255),
+    limit INT,
+    oreder INT,
+    payment_type_list VARCHAR(255),
+    facility_list VARCHAR(255),
+    start_hours_of_departure TIME,
+    end_hours_of_departure TIME,
+    traveling_time_hours INT,
+    traveling_time_minute INT,
+    CONSTRAINT fk_trevel_company FOREIGN KEY(company_id) REFERENCES company(id),
+    CONSTRAINT fk_trevel_company_start FOREIGN KEY(start_destionation) REFERENCES destination(id),
+    CONSTRAINT fk_trevel_company_end FOREIGN KEY(end_destination) REFERENCES destination(id)
+)
