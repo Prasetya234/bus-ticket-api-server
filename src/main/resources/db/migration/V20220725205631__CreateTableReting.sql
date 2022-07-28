@@ -4,7 +4,7 @@ CREATE TABLE reting
     name    VARCHAR(255),
     color   VARCHAR(255),
     created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL
+    updated TIMESTAMP
 );
 
 ALTER TABLE company

@@ -7,7 +7,7 @@ CREATE TABLE company_employe
     latitude   VARCHAR(255),
     longitude  VARCHAR(255),
     created    TIMESTAMP NOT NULL,
-    updated    TIMESTAMP NOT NULL,
+    updated    TIMESTAMP,
     CONSTRAINT fk_company_employe_company FOREIGN KEY (company_id) REFERENCES company (id),
     CONSTRAINT fk_company_employe_user FOREIGN KEY (employe_id) REFERENCES user (id)
 );

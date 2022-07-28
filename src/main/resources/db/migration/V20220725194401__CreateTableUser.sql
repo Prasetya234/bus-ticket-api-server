@@ -9,7 +9,7 @@ CREATE TABLE user
     date_of_birth DATE,
     blocked       TINYINT(1),
     address       TEXT,
-    roles         VARCHAR(255),
+    roles         INT,
     created       TIMESTAMP    NOT NULL,
     updated       TIMESTAMP    NOT NULL
 );

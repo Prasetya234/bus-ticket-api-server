@@ -1,9 +1,9 @@
 CREATE TABLE facility
 (
-    id      INT NULL PRIMARY KEY,
+    id      INT PRIMARY KEY NOT NULL,
     name    VARCHAR(255),
-    created TIMESTAMP NOT NULL,
-    updated TIMESTAMP NOT NULL
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP
 );
 
 INSERT INTO facility (id, name)

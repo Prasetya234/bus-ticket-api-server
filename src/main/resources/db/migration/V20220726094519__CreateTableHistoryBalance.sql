@@ -8,7 +8,7 @@ CREATE TABLE history_balance
     user_id        VARCHAR(255),
     balance_id     VARCHAR(255),
     created        TIMESTAMP    NOT NULL,
-    updated        TIMESTAMP    NOT NULL,
-    CONSTRAINT fk_history_balance_user FOREIGN KEY (useri_id) REFERENCES user (id),
+    updated        TIMESTAMP,
+    CONSTRAINT fk_history_balance_user FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_history_balance_balance FOREIGN KEY (balance_id) REFERENCES balance (id)
 );
