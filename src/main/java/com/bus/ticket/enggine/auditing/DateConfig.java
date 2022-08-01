@@ -19,12 +19,12 @@ import java.util.Date;
 public class DateConfig {
 
     @CreationTimestamp
-    @Column(name = "create_date", nullable = false, updatable = false)
+    @Column(name = "created", nullable = false, updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createAt;
 
     @UpdateTimestamp
-    @Column(name = "update_date")
+    @Column(name = "updated")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateAt;
 }
