@@ -44,7 +44,7 @@ public class Promo extends DateConfig {
     @Column(name = "all_company")
     private boolean allCompany;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 

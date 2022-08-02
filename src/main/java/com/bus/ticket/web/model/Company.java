@@ -44,11 +44,11 @@ public class Company extends DateConfig {
     @Column(name = "blocked")
     private boolean blocked;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reting_id")
     private Reting retingId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
     private User adminId;
 

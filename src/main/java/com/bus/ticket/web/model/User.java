@@ -45,7 +45,7 @@ public class User extends DateConfig {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="roles")
     private UserRole userRole;
 }

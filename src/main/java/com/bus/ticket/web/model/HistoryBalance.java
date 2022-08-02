@@ -30,11 +30,11 @@ public class HistoryBalance extends DateConfig {
     @Column(name = "method_payment")
     private String methodPayment;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "balance_id")
     private Balance balance;
 

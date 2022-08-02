@@ -23,8 +23,12 @@ public class Checkout extends DateConfig {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departure_id")
+    private Departure departureId;
 }
 
