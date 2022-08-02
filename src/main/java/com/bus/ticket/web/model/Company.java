@@ -23,33 +23,33 @@ public class Company extends DateConfig {
     @Column(name = "logo")
     private String logo;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "director")
+    @Column(name = "director", nullable = false)
     private String director;
 
-    @Column(name="phone")
+    @Column(name="phone", nullable = false)
     private String phone;
 
-    @Column(name = "number_of_buses")
+    @Column(name = "number_of_buses", nullable = false)
     private int numberOfBuses;
 
     @Column(name = "total_passenger")
     private int totalPassenger;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
     @Column(name = "blocked")
     private boolean blocked;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "reting_id")
     private Reting retingId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id", nullable = false)
     private User adminId;
 
 }

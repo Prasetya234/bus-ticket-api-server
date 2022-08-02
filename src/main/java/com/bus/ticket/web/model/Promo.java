@@ -25,17 +25,17 @@ public class Promo extends DateConfig {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false)
     private String code;
 
     @Lob
     @Column(name = "description")
     private String description;
 
-    @Column(name = "expired_date")
+    @Column(name = "expired_date", nullable = false)
     private Date expiredDate;
 
-    @Column(name = "max_use")
+    @Column(name = "max_use", nullable = false)
     private int maxUse;
 
     @Column(name = "used")
@@ -44,7 +44,7 @@ public class Promo extends DateConfig {
     @Column(name = "all_company")
     private boolean allCompany;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 

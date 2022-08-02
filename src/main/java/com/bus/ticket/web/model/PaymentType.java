@@ -18,6 +18,6 @@ public class PaymentType extends DateConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 }

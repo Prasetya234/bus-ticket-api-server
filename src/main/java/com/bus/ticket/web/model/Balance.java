@@ -23,7 +23,7 @@ public class Balance extends DateConfig {
     @Column(name = "saldo")
     private float saldo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User userId;
 }
