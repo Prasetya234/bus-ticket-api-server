@@ -51,7 +51,7 @@ Buat database untuk memulai aplikasi
 
 Prasetya Dhany Putra - [@xzy_prasetya](https://www.instagram.com/xzy_prasetya/) - putraprasetyadhany@gmail.com
 
-Project Link: [https://github.com/Prasetya234/quizaze-api](https://github.com/Prasetya234/quizaze-api)
+Project Link: [https://github.com/Prasetya234/bus-ticket-api-server](https://github.com/Prasetya234/bus-ticket-api-server)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
