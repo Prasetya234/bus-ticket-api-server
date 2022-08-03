@@ -66,7 +66,7 @@ public class Departure extends DateConfig {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promo_id")
-    private String promoId;
+    private Promo promoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
