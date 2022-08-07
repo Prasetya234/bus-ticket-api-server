@@ -1,6 +1,6 @@
 CREATE TABLE company_employe
 (
-    id         INT       NOT NULL PRIMARY KEY,
+    id         INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
     company_id VARCHAR(255),
     employe_id VARCHAR(255),
     work       TINYINT(1),

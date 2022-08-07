@@ -1,6 +1,6 @@
 CREATE TABLE payment_type
 (
-    id      INT       NOT NULL PRIMARY KEY,
+    id      INT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name    VARCHAR(255),
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP

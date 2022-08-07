@@ -5,6 +5,7 @@ import com.bus.ticket.web.dto.RetingDto;
 import com.bus.ticket.web.model.Reting;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface RetingService {
   Reting create(RetingDto retingDto);

@@ -8,9 +8,12 @@ import com.bus.ticket.web.repository.RetingRepository;
 import com.bus.ticket.web.service.RetingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class RetingServiceImpl implements RetingService {
