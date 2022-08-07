@@ -35,8 +35,8 @@ public class HistoryBalance extends DateConfig {
     private User userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "balance_id")
-    private Balance balance;
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
 
 
 }

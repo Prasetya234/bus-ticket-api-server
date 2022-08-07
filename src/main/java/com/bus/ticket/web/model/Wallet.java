@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "balance")
-public class Balance extends DateConfig {
+@Table(name = "wallet")
+public class Wallet extends DateConfig {
 
     @Id
     @GeneratedValue(generator = "uuid")
