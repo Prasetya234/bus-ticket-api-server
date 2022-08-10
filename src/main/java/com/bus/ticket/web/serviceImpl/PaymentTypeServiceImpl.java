@@ -7,6 +7,7 @@ import com.bus.ticket.web.model.PaymentType;
 import com.bus.ticket.web.repository.PaymentTypeRepository;
 import com.bus.ticket.web.service.PaymentTypeService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,6 +19,12 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
 
     private ModelMapper modelMapper;
     private PaymentTypeRepository paymentTypeRepository;
+
+    @Autowired
+    public PaymentTypeServiceImpl(ModelMapper modelMapper, PaymentTypeRepository paymentTypeRepository) {
+        this.modelMapper = modelMapper;
+        this.paymentTypeRepository = paymentTypeRepository;
+    }
 
     @Override
     public PaymentType addNew(PaymentTypeDTO paymentType) {
