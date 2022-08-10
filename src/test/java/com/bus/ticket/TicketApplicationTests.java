@@ -27,12 +27,9 @@ import java.util.Date;
 class TicketApplicationTests {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(TicketApplicationTests .class);
-	private MockMvc mockMvc;
 
 	@Autowired
-	public TicketApplicationTests(MockMvc mockMvc) {
-		this.mockMvc = mockMvc;
-	}
+	private MockMvc mockMvc;
 
 	@Test
 	public void shouldReturnDefaultMessage() throws Exception {
