@@ -36,11 +36,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public UserRole getById(Integer id) {
-        return userRoleRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found " + id));
-    }
-
-    @Override
     public UserRole updateData(Integer id, UserRoleDTO userRoleDto) {
         UserRole userRole = userRoleRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found" + id));
         userRole.setName(userRoleDto.getName());

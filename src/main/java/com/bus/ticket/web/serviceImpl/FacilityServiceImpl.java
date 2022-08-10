@@ -1,5 +1,6 @@
 package com.bus.ticket.web.serviceImpl;
 
+import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.dto.FacilityDTO;
 import com.bus.ticket.web.model.Facility;
 import com.bus.ticket.web.repository.FacilityRepository;
@@ -41,14 +42,14 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public Facility updateData(Integer id, FacilityDTO facility) {
-        Facility updateFacility = facilityRepository.findById(id).get();
+        Facility updateFacility = facilityRepository.findById(id).orElseThrow(() -> new NotFoundException("Reting ID Tidak Di Temukan"));
         updateFacility.setName(facility.getName());
         return facilityRepository.save(updateFacility);
     }
 
     @Override
     public Map<String, Boolean> deleteFacility(Integer id) {
-        Facility updateFacility = facilityRepository.findById(id).get();
+        Facility updateFacility = facilityRepository.findById(id).orElseThrow(() -> new NotFoundException("Reting ID Tidak Di Temukan"));
         facilityRepository.delete(updateFacility);
         Map<String, Boolean> response = new HashMap<>();
         response.put("DELETED", Boolean.TRUE);

@@ -32,11 +32,6 @@ public class UserRoleController {
         return ResponseHelper.successResponse(userRoleService.getAllData());
     }
 
-    @GetMapping("/{id}")
-    public CommonResponse<UserRole> getById(@PathVariable (name = "id")Integer id){
-        return ResponseHelper.successResponse(userRoleService.getById(id));
-    }
-
     @PutMapping("/{id}")
     public CommonResponse<UserRole> updateData(@PathVariable("id") Integer id, @RequestBody UserRoleDTO userRole){
         return ResponseHelper.successResponse(userRoleService.updateData(id, userRole));
