@@ -30,7 +30,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Bus Tiket",
+                "Bus Tiket API Documentation",
                 "Backend for Bus Tiket",
                 "1.0.0",
                 "",
