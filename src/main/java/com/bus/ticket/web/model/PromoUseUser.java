@@ -21,4 +21,9 @@ public class PromoUseUser extends DateConfig {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promo_id")
+    private Promo promoId;
+
 }
