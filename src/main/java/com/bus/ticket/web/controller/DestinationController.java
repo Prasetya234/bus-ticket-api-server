@@ -35,12 +35,12 @@ public class DestinationController {
     }
 
     @PutMapping("/{id}")
-    public CommonResponse<Destination> updateData(@PathVariable("id") Integer id, @RequestBody DestinationDTO destinationDTO){
+    public CommonResponse<Destination> update(@PathVariable("id") Integer id, @RequestBody DestinationDTO destinationDTO){
         return ResponseHelper.successResponse(destinationService.update(id, destinationDTO));
     }
 
     @DeleteMapping("/{id}")
-    private CommonResponse<Map<String, Boolean>> deleteFacility(@PathVariable("id") Integer id){
+    private CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") Integer id){
         return ResponseHelper.successResponse(destinationService.delete(id));
     }
 }

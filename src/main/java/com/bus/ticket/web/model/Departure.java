@@ -19,7 +19,6 @@ public class Departure extends DateConfig {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "id")
     private String id;
 
     @Column(name = "price")
