@@ -20,7 +20,7 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
     private PaymentTypeRepository paymentTypeRepository;
 
     @Override
-    public PaymentType addNew(PaymentType paymentType) {
+    public PaymentType addNew(PaymentTypeDTO paymentType) {
         return paymentTypeRepository.save(modelMapper.map(paymentType, PaymentType.class));
     }
 
