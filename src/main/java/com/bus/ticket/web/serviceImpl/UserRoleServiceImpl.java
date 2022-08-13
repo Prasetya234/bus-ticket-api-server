@@ -5,14 +5,17 @@ import com.bus.ticket.web.dto.UserRoleDTO;
 import com.bus.ticket.web.model.UserRole;
 import com.bus.ticket.web.repository.UserRoleRepository;
 import com.bus.ticket.web.service.UserRoleService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
 
@@ -25,16 +28,19 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public UserRole addNewRole(UserRoleDTO userRole) {
         return userRoleRepository.save(modelMapper.map(userRole, UserRole.class));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserRole> getAllData() {
         return userRoleRepository.findAll();
     }
 
+    @Transactional
     @Override
     public UserRole updateData(Integer id, UserRoleDTO userRoleDto) {
         UserRole userRole = userRoleRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found" + id));
@@ -42,6 +48,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleRepository.save(userRole);
     }
 
+    @Transactional
     @Override
     public Map<String, Boolean> deleteUserRole(Integer id) {
         UserRole updateUserRole = userRoleRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found" + id));

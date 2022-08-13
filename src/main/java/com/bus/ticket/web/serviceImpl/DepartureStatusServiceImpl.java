@@ -5,16 +5,18 @@ import com.bus.ticket.web.dto.DepartureStatusDTO;
 import com.bus.ticket.web.model.DepartureStatus;
 import com.bus.ticket.web.repository.DepartureStatusRepository;
 import com.bus.ticket.web.service.DepartureStatusService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
-
 public class DepartureStatusServiceImpl implements DepartureStatusService {
 
     private DepartureStatusRepository departureStatusRepository;
@@ -26,16 +28,19 @@ public class DepartureStatusServiceImpl implements DepartureStatusService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public DepartureStatus create(DepartureStatusDTO DepartureStatusDTO) {
         return departureStatusRepository.save(modelMapper.map(DepartureStatusDTO, DepartureStatus.class));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<DepartureStatus> findAll() {
         return departureStatusRepository.findAll();
     }
 
+    @Transactional
     @Override
     public DepartureStatus update(Integer id, DepartureStatusDTO departureStatusDTO) {
         DepartureStatus departureStatus = departureStatusRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found " + id));
@@ -43,6 +48,7 @@ public class DepartureStatusServiceImpl implements DepartureStatusService {
         return departureStatusRepository.save(departureStatus);
     }
 
+    @Transactional
     @Override
     public Map<String, Boolean> delete(Integer id) {
         DepartureStatus departureStatus = departureStatusRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found " + id));

@@ -5,14 +5,17 @@ import com.bus.ticket.web.dto.DestinationDTO;
 import com.bus.ticket.web.model.Destination;
 import com.bus.ticket.web.repository.DestinationRepository;
 import com.bus.ticket.web.service.DestinationService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class DestinationServiceImpl implements DestinationService {
 
@@ -25,6 +28,7 @@ public class DestinationServiceImpl implements DestinationService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
     public Destination create(DestinationDTO destinationDTO) {
         Destination destination = modelMapper.map(destinationDTO, Destination.class);
@@ -32,11 +36,13 @@ public class DestinationServiceImpl implements DestinationService {
         return destinationRepository.save(destination);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Destination> findAll() {
         return destinationRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Destination update(Integer id, DestinationDTO destinationDTO) {
         Destination destination = destinationRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found " + id));
@@ -44,6 +50,7 @@ public class DestinationServiceImpl implements DestinationService {
         return destinationRepository.save(destination);
     }
 
+    @Transactional
     @Override
     public Map<String, Boolean> delete(Integer id) {
         Destination destination = destinationRepository.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found " + id));
