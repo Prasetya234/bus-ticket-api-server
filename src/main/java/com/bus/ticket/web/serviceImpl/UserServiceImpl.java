@@ -1,29 +1,65 @@
 package com.bus.ticket.web.serviceImpl;
 
+import com.bus.ticket.enggine.configure.EmailConfig;
+import com.bus.ticket.enggine.exception.BussinesException;
+import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.dto.UserDto;
+import com.bus.ticket.web.model.CodeOtp;
 import com.bus.ticket.web.model.User;
+import com.bus.ticket.web.model.Wallet;
 import com.bus.ticket.web.repository.UserRepository;
-import com.bus.ticket.web.service.UserService;
+import com.bus.ticket.web.service.*;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  extends EmailConfig  implements UserService{
+
+    private WalletService walletService;
+    private HistoryBalanceService historyBalanceService;
+    private OtpService otpService;
+    private UserRoleService userRoleService;
 
     private UserRepository userRepository;
+    private Configuration config;
     private ModelMapper modelMapper;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(Configuration config, WalletService walletService, HistoryBalanceService historyBalanceService, OtpService otpService,UserRoleService userRoleService, UserRepository userRepository, ModelMapper modelMapper) {
+        super(config);
+        this.walletService = walletService;
+        this.historyBalanceService = historyBalanceService;
+        this.otpService = otpService;
+        this.userRoleService = userRoleService;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     @Override
-    public User create(UserDto userDto) {
-        return null;
+    public User create(UserDto userDto) throws TemplateException, MessagingException, IOException {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) throw new BussinesException("Email sudah di gunakan");
+        User crt = modelMapper.map(userDto, User.class);
+        crt.setBlocked(true);
+        crt.setUserRole(userRoleService.getById(2));
+        User user = userRepository.save(crt);
+        CodeOtp otp = otpService.create(user);
+        try{
+            sendingMailOtp(user.getEmail(), objTemplate(user.getFirstName(), otp.getCode(), otp.getExpiredDate()));
+        } catch (Exception e) {
+            throw new BussinesException("Sending email not responding, call agency tiket bus");
+        }
+        return user;
     }
 
     @Override
@@ -34,5 +70,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(UserDto userDto) {
         return null;
+    }
+
+    @Override
+    public User active(String userId, String otp) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
+        Wallet wallet = walletService.add(user.getId());
+        historyBalanceService.createHistoryFirst(user, wallet);
+        return user;
+    }
+
+    public Map<String, Object> objTemplate(String name, String otp, Date expiredDate) {
+        Map<String, Object> template = new HashMap<>();
+        template.put("firstName",  name);
+        template.put("otp",  otp);
+        template.put("expiredDate" ,  String.valueOf(expiredDate));
+        return template;
     }
 }

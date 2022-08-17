@@ -2,10 +2,16 @@ package com.bus.ticket.web.service;
 
 import com.bus.ticket.web.dto.UserDto;
 import com.bus.ticket.web.model.User;
+import freemarker.template.TemplateException;
 import org.springframework.data.domain.Page;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+
 public interface UserService {
-    User create(UserDto userDto);
+    User create(UserDto userDto) throws TemplateException, MessagingException, IOException;
     Page<User> findAll(int page, int size);
     User update(UserDto userDto);
+
+    User active(String userId, String otp);
 }

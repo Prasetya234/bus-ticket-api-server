@@ -8,10 +8,8 @@ import java.util.Map;
 
 public interface UserRoleService {
     UserRole addNewRole (UserRoleDTO userRole);
-
     List<UserRole> getAllData();
-
+    UserRole getById(Integer id);
     UserRole updateData(Integer id, UserRoleDTO userRole);
-
     Map<String, Boolean> deleteUserRole(Integer id);
 }

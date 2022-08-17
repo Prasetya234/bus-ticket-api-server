@@ -15,5 +15,4 @@ public class UserDto {
     private String numberPhone;
     private Date dateOfBirth;
     private String address;
-    private String roleId;
 }

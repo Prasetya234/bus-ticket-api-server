@@ -16,10 +16,10 @@
 
 <body style="margin: 0; padding: 0;">
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600"
-       style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 16px; word-spacing: 8px">
+       style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 16px; word-spacing: 6px">
     <tr>
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
-            <p style="text-direction: none; color: black;">Selamat datang <b>${firstName}</b></p><br />
+            <p style="text-direction: none; color: black;  word-spacing: 0px">Selamat datang <b>${firstName}</b></p><br />
             <p style="color: black;">Terima kasih telah bergabung dengan <span
                         style="color: rgb(47, 47, 223); text-decoration: underline;">BusTIcket.co.id</span>. Akun Anda
                 <span style="font-weight: bold;text-decoration: underline; font-size: 18px">BELUM
@@ -29,7 +29,7 @@
             <p style="font-size: 19px; text-align: center;"><b>${otp}</b></p>
             <br />
             <p style="color: black; word-spacing: 0px">Jika Anda merasa ada hal yang dapat dibantu, silahkan hubungi
-                kami melalui <a href="https://api.whatsapp.com/send?phone=6289504731540">Chat Whatsapp</a>.
+                kami melalui <a href="https://api.whatsapp.com/send?phone=6289504731540">Whatsapp</a>.
             </p>
             <p style="color: black; word-spacing: 0px; font-size: 12px">Kode ini Kaladuarsa pada: ${expiredDate}</p>
 

@@ -40,6 +40,11 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleRepository.findAll();
     }
 
+    @Override
+    public UserRole getById(Integer id) {
+        return userRoleRepository.findById(id).orElseThrow(() -> new NotFoundException("Role ID tidak di temukan"));
+    }
+
     @Transactional
     @Override
     public UserRole updateData(Integer id, UserRoleDTO userRoleDto) {
