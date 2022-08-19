@@ -1,4 +1,4 @@
-package com.bus.ticket.enggine.configure;
+package com.bus.ticket.enggine.configure.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

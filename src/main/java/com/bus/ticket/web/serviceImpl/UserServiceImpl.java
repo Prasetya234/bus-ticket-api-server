@@ -1,6 +1,7 @@
 package com.bus.ticket.web.serviceImpl;
 
 import com.bus.ticket.enggine.configure.EmailConfig;
+import com.bus.ticket.enggine.configure.service.GenerateSMS;
 import com.bus.ticket.enggine.exception.BussinesException;
 import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.dto.UserDto;
@@ -11,6 +12,7 @@ import com.bus.ticket.web.repository.UserRepository;
 import com.bus.ticket.web.service.*;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class UserServiceImpl  extends EmailConfig  implements UserService{
 
@@ -32,7 +35,6 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
     private UserRoleService userRoleService;
 
     private UserRepository userRepository;
-    private Configuration config;
     private ModelMapper modelMapper;
     @Autowired
     public UserServiceImpl(Configuration config, WalletService walletService, HistoryBalanceService historyBalanceService, OtpService otpService,UserRoleService userRoleService, UserRepository userRepository, ModelMapper modelMapper) {
@@ -57,7 +59,11 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
         try{
             sendingMailOtp(user.getEmail(), objTemplate(user.getFirstName(), otp.getCode(), otp.getExpiredDate()));
         } catch (Exception e) {
-            throw new BussinesException("Sending email not responding, call agency tiket bus");
+            try {
+                GenerateSMS.sendMessageOtp(otp.getCode(), user);
+            } catch (Exception a) {
+                  throw new BussinesException("Tidak Bisa Membuat Akun. Karena aplikasi ini sedang dalam tahap ujicoba. Kami Developer TiketBus membatasi pembuatan akun baru supaya tidak terjadi kebocoran data");
+            }
         }
         return user;
     }

@@ -3,6 +3,7 @@ package com.bus.ticket.web.model;
 import com.bus.ticket.enggine.auditing.DateConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
