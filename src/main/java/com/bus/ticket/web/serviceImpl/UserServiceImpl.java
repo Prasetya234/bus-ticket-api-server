@@ -62,7 +62,7 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
             try {
                 GenerateSMS.sendMessageOtp(otp.getCode(), user);
             } catch (Exception a) {
-                  throw new BussinesException("Tidak Bisa Membuat Akun. Karena aplikasi ini sedang dalam tahap ujicoba. Kami Developer TiketBus membatasi pembuatan akun baru supaya tidak terjadi kebocoran data");
+                  throw new BussinesException("Tidak Bisa Membuat Akun. Dikarena aplikasi ini dalam tahap ujicoba. Kami Developer TiketBus membatasi pembuatan akun baru setiap harinya supaya proses server lebih cepat. Coba Lagi besok pada jam 09.00 WIB");
             }
         }
         return user;
