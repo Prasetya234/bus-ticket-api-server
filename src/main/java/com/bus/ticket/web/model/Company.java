@@ -1,6 +1,7 @@
 package com.bus.ticket.web.model;
 
 import com.bus.ticket.enggine.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,10 +45,12 @@ public class Company extends DateConfig {
     @Column(name = "blocked")
     private boolean blocked;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reting_id")
     private Reting retingId;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
     private User adminId;

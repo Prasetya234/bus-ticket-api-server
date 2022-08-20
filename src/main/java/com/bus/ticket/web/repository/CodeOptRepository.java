@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface CodeOptRepository extends JpaRepository<CodeOtp, String > {
     @Query(value = "SELECT a.* FROM code_otp a WHERE a.user_id = :userId", nativeQuery = true)
     Optional<CodeOtp> findByUserId(String userId);
+    Optional<CodeOtp> findByCode(String code);
 }

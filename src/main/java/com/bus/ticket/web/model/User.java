@@ -1,6 +1,7 @@
 package com.bus.ticket.web.model;
 
 import com.bus.ticket.enggine.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class User extends DateConfig {
     @Column(name = "address")
     private String address;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="roles")
     private UserRole userRole;

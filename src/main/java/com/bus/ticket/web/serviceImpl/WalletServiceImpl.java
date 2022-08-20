@@ -17,22 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WalletServiceImpl implements WalletService {
 
-    private UserRepository userRepository;
     private WalletRepository walletRepository;
     private HistoryBalanceService historyBalanceService;
 
     @Autowired
-    public WalletServiceImpl(UserRepository userRepository, WalletRepository walletRepository, HistoryBalanceService historyBalanceService) {
-        this.userRepository = userRepository;
+    public WalletServiceImpl(WalletRepository walletRepository, HistoryBalanceService historyBalanceService) {
         this.historyBalanceService = historyBalanceService;
         this.walletRepository = walletRepository;
     }
 
     @Transactional
     @Override
-    public Wallet add(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User ID Tidak Di Temukan" + userId));
-        if (walletRepository.findByUserId(user.getId()).isPresent()) {
+    public Wallet add(User user) {
+        if (walletRepository.findByUserId(user).isPresent()) {
             throw new NotFoundException("Wallet already created");
         }
         Wallet wallet = new Wallet();

@@ -78,12 +78,21 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
         return null;
     }
 
+    @Transactional
     @Override
-    public User active(String userId, String otp) {
+    public User active(String userId, String code) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
-        Wallet wallet = walletService.add(user.getId());
+        otpService.activeUser(code);
+        Wallet wallet = walletService.add(user);
         historyBalanceService.createHistoryFirst(user, wallet);
-        return user;
+        user.setBlocked(false);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public CodeOtp resendCodeOtp(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
+        return otpService.resendOtp(user);
     }
 
     public Map<String, Object> objTemplate(String name, String otp, Date expiredDate) {

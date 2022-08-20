@@ -1,6 +1,7 @@
 package com.bus.ticket.web.service;
 
 import com.bus.ticket.web.dto.UserDto;
+import com.bus.ticket.web.model.CodeOtp;
 import com.bus.ticket.web.model.User;
 import freemarker.template.TemplateException;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,6 @@ public interface UserService {
     User create(UserDto userDto) throws TemplateException, MessagingException, IOException;
     Page<User> findAll(int page, int size);
     User update(UserDto userDto);
-
     User active(String userId, String otp);
+    CodeOtp resendCodeOtp(String userId);
 }

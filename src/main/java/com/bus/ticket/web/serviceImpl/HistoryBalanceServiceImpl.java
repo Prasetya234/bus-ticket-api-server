@@ -27,6 +27,7 @@ public class HistoryBalanceServiceImpl implements HistoryBalanceService {
         HistoryBalance create = new HistoryBalance();
         create.setDescription("First Join Member");
         create.setAdmissionFee(1000F);
+        create.setToBank("");
         create.setMethodPayment("1");
         create.setUserId(user);
         create.setWallet(wallet);

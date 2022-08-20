@@ -3,14 +3,12 @@ package com.bus.ticket.web.controller;
 import com.bus.ticket.enggine.response.CommonResponse;
 import com.bus.ticket.enggine.response.ResponseHelper;
 import com.bus.ticket.web.dto.UserDto;
+import com.bus.ticket.web.model.CodeOtp;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.service.UserService;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -28,5 +26,15 @@ public class AuthenticateController {
     @PostMapping("/signup")
     public CommonResponse<User> signUp(@RequestBody UserDto user) throws TemplateException, MessagingException, IOException {
         return ResponseHelper.successResponse(userService.create(user));
+    }
+
+    @GetMapping("/user-active-code/{userId}")
+    public CommonResponse<User> active(@PathVariable(name = "userId") String userId, @RequestParam(name = "code") String code) {
+        return ResponseHelper.successResponse(userService.active(userId, code));
+    }
+
+    @GetMapping("/resend-active-code/{userId}")
+    public CommonResponse<CodeOtp> resendActiveCode(@PathVariable(name = "userId") String userId) {
+        return ResponseHelper.successResponse(userService.resendCodeOtp(userId));
     }
 }
