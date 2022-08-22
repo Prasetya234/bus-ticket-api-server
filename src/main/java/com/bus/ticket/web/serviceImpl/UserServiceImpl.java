@@ -7,8 +7,10 @@ import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.dto.UserDto;
 import com.bus.ticket.web.model.CodeOtp;
 import com.bus.ticket.web.model.User;
+import com.bus.ticket.web.model.UserRole;
 import com.bus.ticket.web.model.Wallet;
 import com.bus.ticket.web.repository.UserRepository;
+import com.bus.ticket.web.repository.UserRoleRepository;
 import com.bus.ticket.web.service.*;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -29,11 +31,15 @@ import java.util.Map;
 @Service
 public class UserServiceImpl  extends EmailConfig  implements UserService{
 
+
+    // test
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     private WalletService walletService;
     private HistoryBalanceService historyBalanceService;
     private OtpService otpService;
     private UserRoleService userRoleService;
-
     private UserRepository userRepository;
     private ModelMapper modelMapper;
     @Autowired
