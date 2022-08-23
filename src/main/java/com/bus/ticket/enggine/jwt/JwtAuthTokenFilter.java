@@ -23,8 +23,6 @@ import java.util.Optional;
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
     @Autowired
-    private JwtProvider tokenProvider;
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private TemporaryTokenRepository temporaryTokenRepository;
@@ -35,15 +33,15 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwt(request);
             if (jwt != null) {
-                Optional<TemporaryToken> token = temporaryTokenRepository.findByTokenAndExpiAndExpiredDateIsBefore(jwt, new Date());
-                if (token.isPresent()) {
-                    String username = refreshToken(token.get().getToken()).getUserId().getFirstName();
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authentication
-                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+//                Optional<TemporaryToken> token = temporaryTokenRepository.findByTokenAndExpiAndExpiredDateIsBefore(jwt, new Date());
+//                if (token.isPresent()) {
+//                    String username = refreshToken(token.get().getToken()).getUserId().getFirstName();
+//                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//                    UsernamePasswordAuthenticationToken authentication
+//                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                    SecurityContextHolder.getContext().setAuthentication(authentication);
+//                }
             }
         } catch (Exception e) {
             logger.error("Can NOT set user authentication -> Message: {}", e);

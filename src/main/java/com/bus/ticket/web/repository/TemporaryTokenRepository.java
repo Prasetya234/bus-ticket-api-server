@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface TemporaryTokenRepository extends JpaRepository<TemporaryToken, String> {
     Optional<TemporaryToken> findByUserId(User userId);
-    Optional<TemporaryToken> findByTokenAndExpiAndExpiredDateIsBefore(String token, Date date);
+//    Optional<TemporaryToken> findByTokenAndExpiAndExpiredDateIsBefore(String token, Date exipredDate);
     TemporaryToken findByToken(String token);
 }

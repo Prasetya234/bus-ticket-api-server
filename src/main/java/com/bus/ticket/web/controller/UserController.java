@@ -18,8 +18,4 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/user-role/{roleId}")
-    public CommonResponse<User> createUser(@PathVariable(value = "roleId" ) Integer roleId, @RequestBody User user) {
-        return ResponseHelper.successResponse(userService.createTeesting(roleId, user));
-    }
 }

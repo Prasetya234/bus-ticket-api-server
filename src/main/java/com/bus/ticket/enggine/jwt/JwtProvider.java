@@ -1,15 +1,15 @@
 package com.bus.ticket.enggine.jwt;
 
-import com.bus.ticket.enggine.exception.BussinesException;
+import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.model.TemporaryToken;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.repository.TemporaryTokenRepository;
 import com.bus.ticket.web.repository.UserRepository;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,6 @@ import java.util.Optional;
 @Component
 public class JwtProvider  {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
 
     private TemporaryTokenRepository temporaryTokenRepository;
     private UserRepository userRepository;

@@ -1,4 +1,5 @@
-RENAME TABLE balance TO wallet;
+RENAME
+TABLE balance TO wallet;
 ALTER TABLE wallet MODIFY user_id VARCHAR (255) UNIQUE;
 ALTER TABLE history_balance RENAME COLUMN balance_id TO wallet_id;
 

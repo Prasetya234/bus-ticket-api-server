@@ -27,13 +27,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
     private JwtAuthEntryPoint unauthorizedHandler;
-
     @Autowired
     public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
     }
-
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
             "/v2/api-docs",
@@ -43,9 +41,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             // API controller
-            "/v1/api/trafic-global-user/connect",
-            "/v1/api/signup-admin",
-            "/v1/api/login",
+            "/v1/api/authenticate/**",
             "/"
     };
 
@@ -82,7 +78,6 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
