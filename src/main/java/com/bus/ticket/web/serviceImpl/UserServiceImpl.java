@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +41,14 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
     private HistoryBalanceService historyBalanceService;
     private OtpService otpService;
     private UserRoleService userRoleService;
+    private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private ModelMapper modelMapper;
     @Autowired
-    public UserServiceImpl(Configuration config, WalletService walletService, HistoryBalanceService historyBalanceService, OtpService otpService,UserRoleService userRoleService, UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(Configuration config, WalletService walletService, HistoryBalanceService historyBalanceService, OtpService otpService,UserRoleService userRoleService,  PasswordEncoder passwordEncoder ,UserRepository userRepository, ModelMapper modelMapper) {
         super(config);
         this.walletService = walletService;
+        this.passwordEncoder = passwordEncoder;
         this.historyBalanceService = historyBalanceService;
         this.otpService = otpService;
         this.userRoleService = userRoleService;
@@ -60,6 +63,7 @@ public class UserServiceImpl  extends EmailConfig  implements UserService{
         User crt = modelMapper.map(userDto, User.class);
         crt.setBlocked(true);
         crt.setUserRole(userRoleService.getById(2));
+        crt.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User user = userRepository.save(crt);
         CodeOtp otp = otpService.create(user);
         try{
