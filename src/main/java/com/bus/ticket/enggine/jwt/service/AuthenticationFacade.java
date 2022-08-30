@@ -16,6 +16,6 @@ public class AuthenticationFacade {
     }
 
     public static User getAuthentication() {
-        return userRepository.findByFirstNameAndBlockedIsFalse(String.valueOf(SecurityContextHolder.getContext().getAuthentication())).orElseThrow(() -> new NotFoundException("User id not found system"));
+        return userRepository.findByEmailAndBlockedIsFalse(String.valueOf(SecurityContextHolder.getContext().getAuthentication())).orElseThrow(() -> new NotFoundException("User id not found system"));
     }
 }

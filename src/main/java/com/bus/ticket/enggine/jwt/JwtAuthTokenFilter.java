@@ -3,6 +3,7 @@ package com.bus.ticket.enggine.jwt;
 import com.bus.ticket.enggine.jwt.service.UserDetailsServiceImpl;
 import com.bus.ticket.web.model.TemporaryToken;
 import com.bus.ticket.web.repository.TemporaryTokenRepository;
+import com.bus.ticket.web.service.TemporaryTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Optional;
 
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
@@ -26,15 +25,13 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
-    private TemporaryTokenRepository temporaryTokenRepository;
-
-
+    private TemporaryTokenService temporaryTokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getJwt(request);
             if (jwt != null) {
-                Optional<TemporaryToken> token = temporaryTokenRepository.findByTokenAndExpiredDateIsBefore(jwt, new Date());
+                Optional<TemporaryToken> token = temporaryTokenService.findTokenAndExpiredDate(jwt);
                 if (token.isPresent()) {
                     String username = refreshToken(token.get().getToken()).getUserId().getFirstName();
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -50,7 +47,6 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private String getJwt(HttpServletRequest request) {
-
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return authHeader.replace("Bearer ", "");
@@ -58,9 +54,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private TemporaryToken refreshToken(String jwt) {
-        TemporaryToken refreshToken = temporaryTokenRepository.findByToken(jwt);
-        refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 1800000));
-        return temporaryTokenRepository.save(refreshToken);
+    private TemporaryToken refreshToken(String token) {
+        return temporaryTokenService.reverseToken(token);
     }
 }

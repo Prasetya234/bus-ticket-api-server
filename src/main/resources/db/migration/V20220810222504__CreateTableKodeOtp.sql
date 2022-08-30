@@ -7,7 +7,8 @@ CREATE TABLE code_otp
     code         VARCHAR(255) NOT NULL,
     user_id      VARCHAR(255) NOT NULL,
     expired_date DATETIME,
+    used         TINYINT(1) NOT NULL,
     created      TIMESTAMP    NOT NULL,
     updated      TIMESTAMP,
-    CONSTRAINT fk_code_otp_user FOREIGN KEY (user_id) REFERENCES user(id)
+    CONSTRAINT fk_code_otp_user FOREIGN KEY (user_id) REFERENCES user (id)
 )

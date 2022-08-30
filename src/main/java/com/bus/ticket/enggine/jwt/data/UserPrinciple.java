@@ -31,7 +31,7 @@ public class UserPrinciple implements UserDetails {
         auth.add(new SimpleGrantedAuthority(role));
         return new UserPrinciple(
                 user.getId(),
-                user.getFirstName(),
+                user.getEmail(),
                 user.getPassword(),
                 auth
         );

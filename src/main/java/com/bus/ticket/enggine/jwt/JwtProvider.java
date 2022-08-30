@@ -40,16 +40,9 @@ public class JwtProvider  {
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
-        User user = userRepository.findByFirstNameAndBlockedIsFalse(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("userNot found"));
+        User user = userRepository.findByEmailAndBlockedIsFalse(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("userNot found"));
         Optional<TemporaryToken> valid = temporaryTokenRepository.findByUserId(user);
-        if (valid.isPresent()) {
-            temporaryTokenRepository.deleteById(valid.get().getId());
-        }
-        TemporaryToken token = new TemporaryToken();
-        token.setUserId(user);
-        token.setToken(jwt);
-        token.setExpiredDate(new Date(System.currentTimeMillis() + 1800000));
-        temporaryTokenRepository.save(token);
+        if (valid.isPresent()) temporaryTokenRepository.deleteById(valid.get().getId());
         return jwt;
     }
 

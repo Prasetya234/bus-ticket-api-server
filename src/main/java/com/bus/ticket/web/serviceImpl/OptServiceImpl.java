@@ -34,6 +34,7 @@ public class OptServiceImpl implements OtpService {
         CodeOtp crt = new CodeOtp();
         crt.setCode(Utils.randomCode());
         crt.setUserId(user);
+        crt.setUsed(false);
         crt.setExpiredDate(new Date(System.currentTimeMillis() + 900_000));
         return codeOptRepository.save(crt);
     }
@@ -42,7 +43,7 @@ public class OptServiceImpl implements OtpService {
         CodeOtp codeOtp = codeOptRepository.findByCode(code).orElseThrow(() -> new NotFoundException("Otp not found"));
         Date date = codeOtp.getExpiredDate();
         Date dateNow = new Date();
-        if (!dateNow.after(date)) throw new BussinesException("Token anda sudah kadaluarsa");
+        if (dateNow.after(date)) throw new BussinesException("Token anda sudah kadaluarsa");
         return codeOtp;
     }
 
