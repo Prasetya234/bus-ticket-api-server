@@ -33,7 +33,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             if (jwt != null) {
                 Optional<TemporaryToken> token = temporaryTokenService.findTokenAndExpiredDate(jwt);
                 if (token.isPresent()) {
-                    String username = refreshToken(token.get().getToken()).getUserId().getFirstName();
+                    String username = refreshToken(token.get().getToken()).getUserId().getEmail();
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken authentication
                             = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

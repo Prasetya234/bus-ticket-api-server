@@ -4,18 +4,19 @@ import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthenticationFacade {
-    private static UserRepository userRepository;
 
+    private UserRepository userRepository;
     @Autowired
     public AuthenticationFacade(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public static User getAuthentication() {
-        return userRepository.findByEmailAndBlockedIsFalse(String.valueOf(SecurityContextHolder.getContext().getAuthentication())).orElseThrow(() -> new NotFoundException("User id not found system"));
+    public User getAuthentication() {
+        return userRepository.findByEmailAndBlockedIsFalse(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new NotFoundException("User id not found system"));
     }
 }

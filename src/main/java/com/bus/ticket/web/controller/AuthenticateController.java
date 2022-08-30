@@ -40,4 +40,8 @@ public class AuthenticateController {
     public CommonResponse<CodeOtp> resendActiveCode(@PathVariable(name = "userId") String userId) {
         return ResponseHelper.successResponse(userService.resendCodeOtp(userId));
     }
+    @PutMapping("/change-email-resend-code/{userId}")
+    public CommonResponse<CodeOtp> changeEmailActiveCode(@RequestParam(name = "email") String email,  @PathVariable(name = "userId") String userId) {
+        return ResponseHelper.successResponse(userService.changeEmail(email, userId));
+    }
 }

@@ -17,5 +17,7 @@ public interface UserService {
     User update(UserDto userDto);
     TemporaryToken authorities(LoginDto loginDto);
     User active(String userId, String otp);
+    User getUserInitial();
+    CodeOtp changeEmail(String email, String userId);
     CodeOtp resendCodeOtp(String userId);
 }

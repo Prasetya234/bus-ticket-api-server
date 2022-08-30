@@ -40,7 +40,7 @@ public class TemporaryTokenServiceImpl extends Utils implements TemporaryTokenSe
 
     @Override
     public Optional<TemporaryToken> findTokenAndExpiredDate(String token) {
-        return temporaryTokenRepository.findByTokenAndExpiredDateIsBefore(token, new Date());
+        return temporaryTokenRepository.findByTokenValid(token, new Date());
     }
 
     @Override
