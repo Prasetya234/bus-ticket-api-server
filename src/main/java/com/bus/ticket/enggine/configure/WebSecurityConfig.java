@@ -1,5 +1,6 @@
 package com.bus.ticket.enggine.configure;
 
+import com.bus.ticket.enggine.jwt.AccessDenied;
 import com.bus.ticket.enggine.jwt.JwtAuthEntryPoint;
 import com.bus.ticket.enggine.jwt.JwtAuthTokenFilter;
 import com.bus.ticket.enggine.jwt.service.UserDetailsServiceImpl;
@@ -26,10 +27,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
+    private AccessDenied accessDeniedHandler;
     private JwtAuthEntryPoint unauthorizedHandler;
     @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AccessDenied accessDeniedHandler, JwtAuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
+        this.accessDeniedHandler = accessDeniedHandler;
         this.unauthorizedHandler = unauthorizedHandler;
     }
     private static final String[] AUTH_WHITELIST = {
@@ -86,7 +89,9 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 }
