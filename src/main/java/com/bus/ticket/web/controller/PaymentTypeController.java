@@ -6,6 +6,7 @@ import com.bus.ticket.web.dto.PaymentTypeDTO;
 import com.bus.ticket.web.model.PaymentType;
 import com.bus.ticket.web.service.PaymentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -20,21 +21,25 @@ public class PaymentTypeController {
         this.paymentTypeService = paymentTypeService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public CommonResponse<PaymentType> create(@RequestBody PaymentTypeDTO paymentType) {
         return ResponseHelper.successResponse(paymentTypeService.addNew(paymentType));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping
     public CommonResponse<List<PaymentType>> getAll() {
         return ResponseHelper.successResponse(paymentTypeService.getAllPayment());
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public CommonResponse<PaymentType> update(@PathVariable("id") int id, @RequestBody PaymentTypeDTO paymentType) {
         return ResponseHelper.successResponse(paymentTypeService.updatePaymentType(id, paymentType));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") int id) {
         return ResponseHelper.successResponse(paymentTypeService.delete(id));

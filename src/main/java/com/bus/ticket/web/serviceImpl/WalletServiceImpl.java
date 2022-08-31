@@ -1,6 +1,9 @@
 package com.bus.ticket.web.serviceImpl;
 
+import com.bus.ticket.enggine.exception.BussinesException;
 import com.bus.ticket.enggine.exception.NotFoundException;
+import com.bus.ticket.enggine.jwt.service.AuthenticationFacade;
+import com.bus.ticket.web.dto.TopUpDTO;
 import com.bus.ticket.web.dto.WalletDto;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.model.Wallet;
@@ -19,11 +22,12 @@ public class WalletServiceImpl implements WalletService {
 
     private WalletRepository walletRepository;
     private HistoryBalanceService historyBalanceService;
-
+    private AuthenticationFacade facade;
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository, HistoryBalanceService historyBalanceService) {
+    public WalletServiceImpl(WalletRepository walletRepository, HistoryBalanceService historyBalanceService, AuthenticationFacade facade) {
         this.historyBalanceService = historyBalanceService;
         this.walletRepository = walletRepository;
+        this.facade = facade;
     }
 
     @Transactional
@@ -40,9 +44,34 @@ public class WalletServiceImpl implements WalletService {
         return done;
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Wallet showWallet() {
+        return walletRepository.findByUserId(facade.getAuthentication()).orElseThrow(() -> new NotFoundException("Dompet tidak ditemukan"));
+    }
+
+    @Transactional
+    @Override
+    public Wallet topup(TopUpDTO topUpDTO) {
+        User user  = facade.getAuthentication();
+        Wallet wallet = walletRepository.findByUserId(user).orElseThrow(() -> new NotFoundException("Dompet tidak ditemukan"));
+        wallet.setSaldo(wallet.getSaldo() + topUpDTO.getSaldo());
+        historyBalanceService.addBalanceHistory(wallet, user, topUpDTO);
+        return walletRepository.save(wallet);
+    }
+
+    @Transactional
     @Override
     public Wallet balanceManipulation(Float nominal, boolean out) {
-        return null;
+        Wallet wallet = walletRepository.findByUserId(facade.getAuthentication()).orElseThrow(() -> new NotFoundException("Dompet tidak ditemukan"));
+        if (!out) {
+            wallet.setSaldo(wallet.getSaldo()+nominal);
+            return walletRepository.save(wallet);
+        }
+        Float price = wallet.getSaldo() - nominal;
+        if (price < 0) throw new BussinesException("Uang tidak cukup");
+        wallet.setSaldo(price);
+        return walletRepository.save(wallet);
     }
 
 }

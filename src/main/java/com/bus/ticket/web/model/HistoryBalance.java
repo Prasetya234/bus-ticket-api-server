@@ -2,6 +2,7 @@ package com.bus.ticket.web.model;
 
 import com.bus.ticket.enggine.auditing.DateConfig;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -31,12 +32,12 @@ public class HistoryBalance extends DateConfig {
     @Column(name = "method_payment")
     private String methodPayment;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;

@@ -9,6 +9,7 @@ import com.bus.ticket.web.model.TemporaryToken;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.service.UserService;
 import freemarker.template.TemplateException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,9 @@ public class AuthenticateController {
         this.userService = userService;
     }
 
+    @SneakyThrows
     @PostMapping("/signup")
-    public CommonResponse<CodeOtp> signUp(@RequestBody UserDto user) throws TemplateException, MessagingException, IOException {
+    public CommonResponse<CodeOtp> signUp(@RequestBody UserDto user) {
         return ResponseHelper.successResponse(userService.create(user));
     }
     @PostMapping("/signin")
