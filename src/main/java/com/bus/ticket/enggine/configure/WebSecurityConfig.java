@@ -25,16 +25,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
     private AccessDenied accessDeniedHandler;
     private JwtAuthEntryPoint unauthorizedHandler;
+
     @Autowired
     public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AccessDenied accessDeniedHandler, JwtAuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.accessDeniedHandler = accessDeniedHandler;
         this.unauthorizedHandler = unauthorizedHandler;
     }
+
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
             "/v2/api-docs",
@@ -59,15 +61,18 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
     @Bean
     public WebMvcConfigurer customConfigurer() {
         return new WebMvcConfigurer() {
@@ -77,10 +82,12 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
             }
         };
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().

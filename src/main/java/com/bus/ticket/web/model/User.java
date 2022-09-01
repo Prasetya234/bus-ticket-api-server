@@ -52,6 +52,6 @@ public class User extends DateConfig {
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="roles")
+    @JoinColumn(name = "roles")
     private UserRole userRole;
 }

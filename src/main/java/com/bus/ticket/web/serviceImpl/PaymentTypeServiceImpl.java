@@ -2,7 +2,6 @@ package com.bus.ticket.web.serviceImpl;
 
 import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.web.dto.PaymentTypeDTO;
-import com.bus.ticket.web.model.Facility;
 import com.bus.ticket.web.model.PaymentType;
 import com.bus.ticket.web.repository.PaymentTypeRepository;
 import com.bus.ticket.web.service.PaymentTypeService;

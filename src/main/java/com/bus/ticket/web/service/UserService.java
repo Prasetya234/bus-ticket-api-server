@@ -16,6 +16,7 @@ public interface UserService {
     Page<User> findAll(int page, int size);
     User update(UserDto userDto);
     TemporaryToken authorities(LoginDto loginDto);
+    TemporaryToken reverseToken(String token);
     User active(String userId, String otp);
     User getUserInitial();
     CodeOtp changeEmail(String email, String userId);

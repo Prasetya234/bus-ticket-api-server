@@ -14,5 +14,5 @@ public interface TemporaryTokenRepository extends JpaRepository<TemporaryToken, 
     Optional<TemporaryToken> findByUserId(User userId);
     @Query(value = "SELECT a.* FROM temporary_token a WHERE a.token = :token AND a.expired_date > :expired", nativeQuery = true)
     Optional<TemporaryToken> findByTokenValid(String token, Date expired);
-    TemporaryToken findByToken(String token);
+    Optional<TemporaryToken> findByToken(String token);
 }

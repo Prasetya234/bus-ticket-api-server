@@ -8,13 +8,9 @@ import com.bus.ticket.web.model.CodeOtp;
 import com.bus.ticket.web.model.TemporaryToken;
 import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.service.UserService;
-import freemarker.template.TemplateException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/api/authenticate")

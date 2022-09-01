@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class AuthenticationFacade {
 
     private UserRepository userRepository;
+
     @Autowired
     public AuthenticationFacade(UserRepository userRepository) {
         this.userRepository = userRepository;

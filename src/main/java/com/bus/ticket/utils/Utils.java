@@ -20,6 +20,7 @@ public class Utils {
         }
         return salt.toString();
     }
+
     public static String getIpAdress() {
         return ipAddress.getClientIpAddressIfServletRequestExist();
     }

@@ -1,7 +1,5 @@
 package com.bus.ticket.web.serviceImpl;
 
-import com.bus.ticket.enggine.configure.EmailConfig;
-import com.bus.ticket.enggine.configure.service.GenerateSMS;
 import com.bus.ticket.enggine.exception.BussinesException;
 import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.enggine.jwt.JwtProvider;
@@ -9,11 +7,12 @@ import com.bus.ticket.enggine.jwt.service.AuthenticationFacade;
 import com.bus.ticket.enggine.jwt.service.UserDetailsServiceImpl;
 import com.bus.ticket.web.dto.LoginDto;
 import com.bus.ticket.web.dto.UserDto;
-import com.bus.ticket.web.model.*;
+import com.bus.ticket.web.model.CodeOtp;
+import com.bus.ticket.web.model.TemporaryToken;
+import com.bus.ticket.web.model.User;
+import com.bus.ticket.web.model.Wallet;
 import com.bus.ticket.web.repository.UserRepository;
-import com.bus.ticket.web.repository.UserRoleRepository;
 import com.bus.ticket.web.service.*;
-import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -79,13 +75,11 @@ public class UserServiceImpl  implements UserService{
             throw new BussinesException("Tidak Bisa Membuat Akun. Dikarena aplikasi ini dalam tahap ujicoba. Kami Developer TiketBus membatasi pembuatan akun baru setiap harinya supaya proses server lebih cepat. Coba Lagi besok pada jam 09.00 WIB");
         }
     }
-
     @Override
     public Page<User> findAll(int page, int size) {
         return null;
     }
-
-
+    @Transactional
     @Override
     public User update(UserDto userDto) {
         User user = facade.getAuthentication();
@@ -97,14 +91,17 @@ public class UserServiceImpl  implements UserService{
         user.setAddress(user.getAddress());
         return userRepository.save(user);
     }
-
     @Override
     public TemporaryToken authorities(LoginDto loginDto) {
         String jwt = authories(loginDto);
         User user = userRepository.findByEmailAndBlockedIsFalse(loginDto.getEmail()).get();
         return temporaryTokenService.create(jwt, user);
     }
-
+    @Transactional
+    @Override
+    public TemporaryToken reverseToken(String token) {
+        return temporaryTokenService.reverseToken(token);
+    }
     @Transactional
     @Override
     public User active(String userId, String code) {
@@ -127,14 +124,12 @@ public class UserServiceImpl  implements UserService{
         userRepository.save(user);
         return otpService.resendOtp(user);
     }
-
     @SneakyThrows
     @Override
     public CodeOtp resendCodeOtp(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
         return otpService.resendOtp(user);
     }
-
     private String authories(LoginDto user) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -144,5 +139,4 @@ public class UserServiceImpl  implements UserService{
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         return jwtProvider.generateJwtToken(userDetails);
     }
-
 }

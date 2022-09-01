@@ -2,7 +2,6 @@ package com.bus.ticket.enggine.jwt;
 
 import com.bus.ticket.enggine.jwt.service.UserDetailsServiceImpl;
 import com.bus.ticket.web.model.TemporaryToken;
-import com.bus.ticket.web.repository.TemporaryTokenRepository;
 import com.bus.ticket.web.service.TemporaryTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private TemporaryTokenService temporaryTokenService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -46,6 +46,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

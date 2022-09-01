@@ -14,8 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name = "reting")
 public class Reting extends DateConfig implements Serializable {
-    private final  static Long serialVersionUID = 1L;
-    
+    private final static Long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

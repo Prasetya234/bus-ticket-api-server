@@ -6,10 +6,10 @@ import com.bus.ticket.web.model.User;
 import com.bus.ticket.web.repository.TemporaryTokenRepository;
 import com.bus.ticket.web.repository.UserRepository;
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Component
-public class JwtProvider  {
+public class JwtProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
     private TemporaryTokenRepository temporaryTokenRepository;
@@ -28,6 +28,7 @@ public class JwtProvider  {
         this.temporaryTokenRepository = temporaryTokenRepository;
         this.userRepository = userRepository;
     }
+
     @Value("bootcamp_")
     private String jwtSecret;
     @Value("1800000")  // 30 minute

@@ -17,14 +17,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> notFoundAdviceController(NotFoundException notFoundException) {
         return ResponseHelper.errorResponse(notFoundException.getMessage(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name());
     }
+
     @ExceptionHandler(BussinesException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(BussinesException bussinesException) {
         return ResponseHelper.errorResponse(bussinesException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name());
     }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handlerAccessDeniedException(final Exception ex, final HttpServletRequest request, final HttpServletResponse response) {
         return ResponseHelper.errorResponse("Access denied", HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.name());
     }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(UsernameNotFoundException usernameNotFoundException) {
         return ResponseHelper.errorResponse(usernameNotFoundException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name());

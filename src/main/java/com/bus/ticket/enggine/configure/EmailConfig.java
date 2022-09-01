@@ -16,9 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 
-
 public class EmailConfig {
-    private  Configuration config;
+    private Configuration config;
 
     @Autowired
     public EmailConfig(Configuration config) {
@@ -26,9 +25,9 @@ public class EmailConfig {
     }
 
     @Value("${spring.mail.username}")
-    private  String EMAIL_SENDER;
+    private String EMAIL_SENDER;
     @Value("${spring.mail.password}")
-    private  String PASSWORD_SENDER;
+    private String PASSWORD_SENDER;
 
     public void sendingMailOtp(String emailTo, Map<String, Object> components) throws IOException, TemplateException, MessagingException {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
