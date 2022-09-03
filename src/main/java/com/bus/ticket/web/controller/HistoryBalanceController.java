@@ -6,6 +6,7 @@ import com.bus.ticket.web.model.HistoryBalance;
 import com.bus.ticket.web.service.HistoryBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,11 +20,13 @@ public class HistoryBalanceController {
         this.historyBalanceService = historyBalanceService;
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<Page<HistoryBalance>> findHistoryBalance(@RequestParam(defaultValue = "0", required = false) int page, @RequestParam(defaultValue = "10", required = false) int size ) {
         return ResponseHelper.successResponse(historyBalanceService.showHistoryBalance(page, size));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping("/{id}")
     public CommonResponse<HistoryBalance> findById(@PathVariable("id") String id) {
         return ResponseHelper.successResponse(historyBalanceService.findById(id));

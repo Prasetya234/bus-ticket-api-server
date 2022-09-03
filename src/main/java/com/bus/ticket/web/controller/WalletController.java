@@ -20,13 +20,13 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @PostMapping("/topup")
     public CommonResponse<Wallet> topup(@RequestBody TopUpDTO topup) {
         return ResponseHelper.successResponse(walletService.topup(topup));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<Wallet> showWallet() {
         return ResponseHelper.successResponse(walletService.showWallet());

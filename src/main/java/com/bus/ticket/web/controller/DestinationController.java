@@ -6,6 +6,7 @@ import com.bus.ticket.web.dto.DestinationDTO;
 import com.bus.ticket.web.model.Destination;
 import com.bus.ticket.web.service.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,25 +24,25 @@ public class DestinationController {
         this.destinationService = destinationService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public CommonResponse<Destination> create(@RequestBody DestinationDTO destinationDTO){
         return ResponseHelper.successResponse(destinationService.create(destinationDTO));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
-    public CommonResponse<List<Destination>> findAll(){
-        return ResponseHelper.successResponse(destinationService.findAll());
+    public CommonResponse<Page<Destination>> findAll(@RequestParam(name = "page", defaultValue = "10") int page, @RequestParam(name="size", defaultValue = "0") int size){
+        return ResponseHelper.successResponse(destinationService.findAll(page, size));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public CommonResponse<Destination> update(@PathVariable("id") Integer id, @RequestBody DestinationDTO destinationDTO){
         return ResponseHelper.successResponse(destinationService.update(id, destinationDTO));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN' , 'EMPLOYEE')")
     @DeleteMapping("/{id}")
     private CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") Integer id){
         return ResponseHelper.successResponse(destinationService.delete(id));

@@ -6,7 +6,8 @@ CREATE TABLE user_role
 
 INSERT INTO user_role
 VALUES (1, 'ADMIN'),
-       (2, 'USER');
+       (2, 'USER'),
+       (3, 'EMPLOYEE');
 
 ALTER TABLE user
     ADD CONSTRAINT fk_user_user_role FOREIGN KEY (roles) REFERENCES user_role (id);

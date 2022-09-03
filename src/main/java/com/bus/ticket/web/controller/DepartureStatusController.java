@@ -23,25 +23,25 @@ public class DepartureStatusController {
         this.departureStatusService = departureStatusService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public CommonResponse<DepartureStatus> create(@RequestBody DepartureStatusDTO departureStatusDTO){
         return ResponseHelper.successResponse(departureStatusService.create(departureStatusDTO));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<List<DepartureStatus>> findAll(){
         return ResponseHelper.successResponse(departureStatusService.findAll());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public CommonResponse<DepartureStatus> update(@PathVariable("id") Integer id, @RequestBody DepartureStatusDTO departureStatusDTO){
         return ResponseHelper.successResponse(departureStatusService.update(id, departureStatusDTO));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/{id}")
     private CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") Integer id){
         return ResponseHelper.successResponse(departureStatusService.delete(id));

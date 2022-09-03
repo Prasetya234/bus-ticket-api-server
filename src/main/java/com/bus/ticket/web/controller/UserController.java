@@ -19,15 +19,21 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @PutMapping
     public CommonResponse<User> updateData(@RequestBody UserDto userDto) {
         return ResponseHelper.successResponse(userService.update(userDto));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<User> getUser() {
         return ResponseHelper.successResponse(userService.getUserInitial());
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
+    @GetMapping("/{id}")
+    public CommonResponse<User> getById(@PathVariable("id") String id) {
+        return ResponseHelper.successResponse(userService.getById(id));
     }
 }

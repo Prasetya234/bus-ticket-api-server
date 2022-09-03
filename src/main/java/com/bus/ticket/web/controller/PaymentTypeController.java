@@ -22,25 +22,25 @@ public class PaymentTypeController {
         this.paymentTypeService = paymentTypeService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public CommonResponse<PaymentType> create(@RequestBody PaymentTypeDTO paymentType) {
         return ResponseHelper.successResponse(paymentTypeService.addNew(paymentType));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<List<PaymentType>> getAll() {
         return ResponseHelper.successResponse(paymentTypeService.getAllPayment());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public CommonResponse<PaymentType> update(@PathVariable("id") int id, @RequestBody PaymentTypeDTO paymentType) {
         return ResponseHelper.successResponse(paymentTypeService.updatePaymentType(id, paymentType));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/{id}")
     public CommonResponse<Map<String, Boolean>> delete(@PathVariable("id") int id) {
         return ResponseHelper.successResponse(paymentTypeService.delete(id));

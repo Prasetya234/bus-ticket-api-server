@@ -23,13 +23,13 @@ public class FacilityController {
         this.facilityService = facilityService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public CommonResponse<Facility> addNewFacility(@RequestBody FacilityDTO facility){
         return ResponseHelper.successResponse(facilityService.addNewFacility(facility));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<List<Facility>> getAllUserRole(){
         return ResponseHelper.successResponse(facilityService.getAllFacility());
@@ -41,13 +41,13 @@ public class FacilityController {
         return ResponseHelper.successResponse(facilityService.getById(id));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public CommonResponse<Facility> updateData(@PathVariable("id") Integer id, @RequestBody FacilityDTO facility){
         return ResponseHelper.successResponse(facilityService.updateData(id, facility));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/{id}")
     private CommonResponse<Map<String, Boolean>> deleteFacility(@PathVariable("id") Integer Id){
         return ResponseHelper.successResponse(facilityService.deleteFacility(Id));

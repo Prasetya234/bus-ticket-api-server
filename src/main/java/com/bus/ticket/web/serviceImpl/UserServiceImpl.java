@@ -5,12 +5,10 @@ import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.enggine.jwt.JwtProvider;
 import com.bus.ticket.enggine.jwt.service.AuthenticationFacade;
 import com.bus.ticket.enggine.jwt.service.UserDetailsServiceImpl;
+import com.bus.ticket.web.dto.HistoryJoinAdminDto;
 import com.bus.ticket.web.dto.LoginDto;
 import com.bus.ticket.web.dto.UserDto;
-import com.bus.ticket.web.model.CodeOtp;
-import com.bus.ticket.web.model.TemporaryToken;
-import com.bus.ticket.web.model.User;
-import com.bus.ticket.web.model.Wallet;
+import com.bus.ticket.web.model.*;
 import com.bus.ticket.web.repository.UserRepository;
 import com.bus.ticket.web.service.*;
 import freemarker.template.TemplateException;
@@ -45,8 +43,9 @@ public class UserServiceImpl  implements UserService{
     private UserDetailsServiceImpl userDetailsService;
     private ModelMapper modelMapper;
     private AuthenticationFacade facade;
+    private HistoryJoinAdminService historyJoinAdminService;
     @Autowired
-    public UserServiceImpl( WalletService walletService, HistoryBalanceService historyBalanceService, JwtProvider jwtProvider, AuthenticationManager authenticationManager, OtpService otpService, TemporaryTokenService temporaryTokenService, UserRoleService userRoleService,  PasswordEncoder passwordEncoder ,UserRepository userRepository, UserDetailsServiceImpl userDetailsService, ModelMapper modelMapper, AuthenticationFacade facade) {
+    public UserServiceImpl( WalletService walletService, HistoryBalanceService historyBalanceService, JwtProvider jwtProvider, AuthenticationManager authenticationManager, OtpService otpService, TemporaryTokenService temporaryTokenService, UserRoleService userRoleService,  PasswordEncoder passwordEncoder ,UserRepository userRepository, UserDetailsServiceImpl userDetailsService, ModelMapper modelMapper, AuthenticationFacade facade, HistoryJoinAdminService historyJoinAdminService) {
         this.walletService = walletService;
         this.passwordEncoder = passwordEncoder;
         this.historyBalanceService = historyBalanceService;
@@ -59,6 +58,7 @@ public class UserServiceImpl  implements UserService{
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.facade = facade;
+        this.historyJoinAdminService = historyJoinAdminService;
     }
     @Transactional
     @Override
@@ -112,6 +112,13 @@ public class UserServiceImpl  implements UserService{
         user.setBlocked(false);
         return userRepository.save(user);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public User getById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("USER ID tidak di temukan"));
+    }
+
     @Override
     public User getUserInitial() {
         return facade.getAuthentication();
@@ -129,6 +136,14 @@ public class UserServiceImpl  implements UserService{
     public CodeOtp resendCodeOtp(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
         return otpService.resendOtp(user);
+    }
+    @Transactional
+    @Override
+    public HistoryJoinAdmin joinMitraBus(String id, HistoryJoinAdminDto historyJoinAdminDto) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User tidak di temukan"));
+        user.setUserRole(userRoleService.getById(1));
+        userRepository.save(user);
+        return historyJoinAdminService.join(user, historyJoinAdminDto.getDescription());
     }
     private String authories(LoginDto user) {
         try {

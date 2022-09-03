@@ -23,25 +23,25 @@ public class RetingController {
         this.retingService = retingService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public CommonResponse<Reting> create(@RequestBody RetingDto retingDto) {
         return ResponseHelper.successResponse(retingService.create(retingDto));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
     public CommonResponse<List<Reting>> getAll() {
         return ResponseHelper.successResponse(retingService.findAll());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public CommonResponse<Reting> update(@PathVariable("id") int id, @RequestBody RetingDto retingDto) {
         return ResponseHelper.successResponse(retingService.update(id, retingDto));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/{id}")
     public CommonResponse<ModelDelete> delete(@PathVariable("id") int id) {
         return ResponseHelper.successResponse(retingService.delete(id));
