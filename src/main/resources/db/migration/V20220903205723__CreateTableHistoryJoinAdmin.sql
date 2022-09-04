@@ -1,4 +1,4 @@
-CREATE TABLE histroy_join_admin(
+CREATE TABLE history_join_admin(
     id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id     VARCHAR(255),
     description VARCHAR(255),
