@@ -14,9 +14,10 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class TemporaryTokenServiceImpl extends Utils implements TemporaryTokenService  {
+public class TemporaryTokenServiceImpl  implements TemporaryTokenService  {
 
     TemporaryTokenRepository temporaryTokenRepository;
+
 
     @Autowired
     public TemporaryTokenServiceImpl(TemporaryTokenRepository temporaryTokenRepository) {
@@ -29,7 +30,7 @@ public class TemporaryTokenServiceImpl extends Utils implements TemporaryTokenSe
         TemporaryToken key = new TemporaryToken();
         key.setUserId(user);
         key.setToken(token);
-        key.setIpAddress(getIpAdress());
+        key.setIpAddress(new Utils().getIpAdress());
         key.setExpiredDate(new Date(System.currentTimeMillis() + 1800000));
         return temporaryTokenRepository.save(key);
     }

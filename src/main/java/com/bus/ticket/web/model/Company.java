@@ -39,6 +39,7 @@ public class Company extends DateConfig {
     @Column(name = "total_passenger")
     private int totalPassenger;
 
+    @Lob
     @Column(name = "address", nullable = false)
     private String address;
 

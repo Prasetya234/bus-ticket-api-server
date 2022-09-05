@@ -47,6 +47,7 @@ public class User extends DateConfig {
     @Column(name = "blocked")
     private boolean blocked;
 
+    @Lob
     @Column(name = "address")
     private String address;
 

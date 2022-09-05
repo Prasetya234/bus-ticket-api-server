@@ -21,6 +21,7 @@ public class HistoryJoinAdmin extends DateConfig {
     @JoinColumn(name = "user_id")
     private User userId;
 
+    @Lob
     @Column(name = "description")
     private String description;
 }
