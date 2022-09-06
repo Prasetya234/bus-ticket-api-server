@@ -17,3 +17,5 @@ CREATE TABLE worker_registration
     created                    TIMESTAMP    NOT NULL,
     updated                    TIMESTAMP
 );
+
+ALTER TABLE company ADD COLUMN total_employees INT AFTER total_passenger;

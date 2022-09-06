@@ -46,7 +46,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     @Override
     public Company update(String id, CompanyDto companyDto) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new NotFoundException("CONPANY ID NOT FOUND")) ;
+        Company company = companyRepository.findById(id).orElseThrow(() -> new NotFoundException("COMPANY ID NOT FOUND")) ;
         company.setName(companyDto.getName());
         company.setAddress(companyDto.getAddress());
         company.setLogo(company.getLogo());
@@ -57,7 +57,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(readOnly = true)
     @Override
     public Company getById(String id) {
-        return companyRepository.findById(id).orElseThrow(() -> new NotFoundException("DESTINATION ID NOT FOUND"));
+        return companyRepository.findById(id).orElseThrow(() -> new NotFoundException("COMPANY ID NOT FOUND"));
     }
 
     @Transactional(readOnly = true)
@@ -65,5 +65,19 @@ public class CompanyServiceImpl implements CompanyService {
     public Page<Company> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return companyRepository.findAll(pageable);
+    }
+
+    @Transactional
+    @Override
+    public Company addNumberWorker(Company company) {
+        company.setTotalEmployees(company.getTotalEmployees() +1);
+        return companyRepository.save(company);
+    }
+
+    @Transactional
+    @Override
+    public Company removeNumberWorker(Company company) {
+        company.setTotalEmployees(company.getTotalEmployees() -1);
+        return companyRepository.save(company);
     }
 }

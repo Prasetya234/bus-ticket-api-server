@@ -4,6 +4,8 @@ import com.bus.ticket.enggine.response.CommonResponse;
 import com.bus.ticket.enggine.response.ResponseHelper;
 import com.bus.ticket.web.dto.CompanyDto;
 import com.bus.ticket.web.model.Company;
+import com.bus.ticket.web.model.CompanyEmploye;
+import com.bus.ticket.web.service.CompanyEmployeService;
 import com.bus.ticket.web.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController {
 
     private CompanyService companyService;
+    private CompanyEmployeService companyEmployeService;
 
     @Autowired
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService, CompanyEmployeService companyEmployeService) {
         this.companyService = companyService;
+        this.companyEmployeService = companyEmployeService;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -39,7 +43,13 @@ public class CompanyController {
         return ResponseHelper.successResponse(companyService.getAll(page, size));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/{id]/worker")
+    public CommonResponse<Page<CompanyEmploye>> findAllWorker(@PathVariable("id") String id, @RequestParam(name= "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size){
+        return ResponseHelper.successResponse(companyEmployeService.findAllCompanyEmploye(id, page, size));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'hasAuthority')")
     @GetMapping("/{id]")
     public CommonResponse<Company> getById(@PathVariable("id") String id) {
         return ResponseHelper.successResponse(companyService.getById(id));
