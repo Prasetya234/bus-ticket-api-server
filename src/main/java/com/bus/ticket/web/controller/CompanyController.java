@@ -44,8 +44,8 @@ public class CompanyController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/{id]/worker")
-    public CommonResponse<Page<CompanyEmploye>> findAllWorker(@PathVariable("id") String id, @RequestParam(name= "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size){
+    @GetMapping("/worker")
+    public CommonResponse<Page<CompanyEmploye>> findAllWorker(@RequestParam("id") String id, @RequestParam(name= "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size){
         return ResponseHelper.successResponse(companyEmployeService.findAllCompanyEmploye(id, page, size));
     }
 
