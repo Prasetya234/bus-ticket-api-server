@@ -40,7 +40,7 @@ public class Company extends DateConfig {
     private int totalPassenger;
 
     @Column(name = "total_employees")
-    private int totalEmployees;
+    private Integer totalEmployees;
 
     @Lob
     @Column(name = "address", nullable = false)

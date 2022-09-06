@@ -46,17 +46,17 @@ public class OptServiceImpl extends EmailConfig implements OtpService {
         crt.setUsed(false);
         crt.setExpiredDate(new Date(System.currentTimeMillis() + 900_000));
         CodeOtp response = codeOptRepository.save(crt);
-        try {
-            sendingMailOtp(user.getEmail(), objTemplate(user.getFirstName(), response.getCode(), response.getExpiredDate()));
-        } catch (Exception e) {
-            try {
-                GenerateSMS.sendMessageOtp(response.getCode(), user);
-            } catch (Exception a) {
-                throw new Exception(a.getMessage());
-            }
-        } finally {
-            return response;
-        }
+//        try {
+//            sendingMailOtp(user.getEmail(), objTemplate(user.getFirstName(), response.getCode(), response.getExpiredDate()));
+//        } catch (Exception e) {
+//            try {
+//                GenerateSMS.sendMessageOtp(response.getCode(), user);
+//            } catch (Exception a) {
+//                throw new Exception(a.getMessage());
+//            }
+//        } finally {
+        return response;
+//        }
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.bus.ticket.web.serviceImpl;
 
+import com.bus.ticket.enggine.exception.BussinesException;
 import com.bus.ticket.enggine.exception.NotFoundException;
 import com.bus.ticket.enggine.jwt.service.AuthenticationFacade;
 import com.bus.ticket.web.dto.WorkerRegistrationDTO;
+import com.bus.ticket.web.model.Company;
 import com.bus.ticket.web.model.WorkerRegistration;
 import com.bus.ticket.web.repository.CompanyEmployeRepository;
 import com.bus.ticket.web.repository.WorkerRegistrationRepository;
@@ -12,6 +14,9 @@ import com.bus.ticket.web.service.WorkerRegistrationService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,12 +44,21 @@ public class WorkerRegistrationSerivceImpl implements WorkerRegistrationService 
     @Transactional
     @Override
     public WorkerRegistration add(WorkerRegistrationDTO workerRegistrationDto) {
-        WorkerRegistration workerRegistration = modelMapper.map(workerRegistrationDto, WorkerRegistration.class);
-        workerRegistration.setUserId(facade.getAuthentication());
-        workerRegistration.setCompanyId(companyService.getById(workerRegistrationDto.getCompanyId()));
-        return workerRegistrationRepository.save(workerRegistration);
+        WorkerRegistration create = modelMapper.map(workerRegistrationDto, WorkerRegistration.class);
+        create.setUserId(facade.getAuthentication());
+        create.setCompanyId(companyService.getById(workerRegistrationDto.getCompanyId()));
+        if (workerRegistrationRepository.findByCompanyIdAndUserId(create.getCompanyId(), create.getUserId()).isPresent())
+            new BussinesException("You have registered with this company");
+        return workerRegistrationRepository.save(create);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Page<WorkerRegistration> findAllWorkerRegistrationByCompany(String companyId, int page, int size) {
+        Company company = companyService.getById(companyId);
+        Pageable pageable = PageRequest.of(page, size);
+        return workerRegistrationRepository.findAllByCompanyId(company, pageable);
+    }
 
     @Transactional
     @Override
