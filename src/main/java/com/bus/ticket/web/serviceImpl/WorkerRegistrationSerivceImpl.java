@@ -48,7 +48,7 @@ public class WorkerRegistrationSerivceImpl implements WorkerRegistrationService 
         create.setUserId(facade.getAuthentication());
         create.setCompanyId(companyService.getById(workerRegistrationDto.getCompanyId()));
         if (workerRegistrationRepository.findByCompanyIdAndUserId(create.getCompanyId(), create.getUserId()).isPresent())
-            new BussinesException("You have registered with this company");
+            throw new BussinesException("You have registered with this company");
         return workerRegistrationRepository.save(create);
     }
 

@@ -5,7 +5,6 @@ import com.bus.ticket.enggine.response.ResponseHelper;
 import com.bus.ticket.web.dto.WorkerRegistrationDTO;
 import com.bus.ticket.web.model.WorkerRegistration;
 import com.bus.ticket.web.service.WorkerRegistrationService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,13 +35,13 @@ public class WorkerRegistrationController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/reject/{id}")
-    public CommonResponse<?> reject(String id) {
+    public CommonResponse<?> reject(@PathVariable("id") String id) {
         return ResponseHelper.successResponse(workerRegistrationService.delete(id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/apply/{id}")
-    public CommonResponse<?> applied(String id) {
+    public CommonResponse<?> applied(@PathVariable("id") String id) {
         return ResponseHelper.successResponse(workerRegistrationService.applied(id));
     }
 }
