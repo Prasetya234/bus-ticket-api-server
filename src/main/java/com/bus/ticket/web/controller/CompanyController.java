@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController {
 
     private CompanyService companyService;
-    private CompanyEmployeService companyEmployeService;
 
     @Autowired
-    public CompanyController(CompanyService companyService, CompanyEmployeService companyEmployeService) {
+    public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
-        this.companyEmployeService = companyEmployeService;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -43,15 +41,10 @@ public class CompanyController {
         return ResponseHelper.successResponse(companyService.getAll(page, size));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/worker")
-    public CommonResponse<Page<CompanyEmploye>> findAllWorker(@RequestParam("id") String id, @RequestParam(name= "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size){
-        return ResponseHelper.successResponse(companyEmployeService.findAllCompanyEmploye(id, page, size));
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'hasAuthority')")
-    @GetMapping("/{id]")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
+    @GetMapping("/{id}")
     public CommonResponse<Company> getById(@PathVariable("id") String id) {
         return ResponseHelper.successResponse(companyService.getById(id));
     }
+
 }

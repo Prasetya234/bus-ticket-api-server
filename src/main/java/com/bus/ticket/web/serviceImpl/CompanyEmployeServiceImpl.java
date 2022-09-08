@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,7 +34,6 @@ public class CompanyEmployeServiceImpl implements CompanyEmployeService {
         this.facade = facade;
     }
 
-    @Transactional
     @Override
     public CompanyEmploye add(Company companyId, User user) {
         companyService.addNumberWorker(companyId);
@@ -49,6 +49,11 @@ public class CompanyEmployeServiceImpl implements CompanyEmployeService {
     public CompanyEmploye findById(String companyId, int id) {
         Company cmpy = companyService.getById(companyId);
         return companyEmployeRepository.findByIdAndCompanyId(id, cmpy).orElseThrow(() -> new NotFoundException("Worker NOT FOUND"));
+    }
+
+    @Override
+    public Optional<CompanyEmploye> findWorkerAlready(User user, Company company) {
+        return companyEmployeRepository.findByEmployeIdAndCompanyId(user, company);
     }
 
     @Transactional(readOnly = true)

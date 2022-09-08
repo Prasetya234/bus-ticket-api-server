@@ -49,6 +49,8 @@ public class WorkerRegistrationSerivceImpl implements WorkerRegistrationService 
         create.setCompanyId(companyService.getById(workerRegistrationDto.getCompanyId()));
         if (workerRegistrationRepository.findByCompanyIdAndUserId(create.getCompanyId(), create.getUserId()).isPresent())
             throw new BussinesException("You have registered with this company");
+        if (companyEmployeService.findWorkerAlready(create.getUserId(), create.getCompanyId()).isPresent())
+            throw new BussinesException("You have already work in this company");
         return workerRegistrationRepository.save(create);
     }
 
@@ -60,7 +62,6 @@ public class WorkerRegistrationSerivceImpl implements WorkerRegistrationService 
         return workerRegistrationRepository.findAllByCompanyId(company, pageable);
     }
 
-    @Transactional
     @Override
     public Map<String, Boolean> applied(String id) {
         WorkerRegistration applied = workerRegistrationRepository.findById(id).orElseThrow(() -> new NotFoundException("Worker Registration NOT FOUND"));

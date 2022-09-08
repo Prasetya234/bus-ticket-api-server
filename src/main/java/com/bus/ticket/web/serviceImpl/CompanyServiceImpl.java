@@ -39,6 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = modelMapper.map(companyDto, Company.class);
         company.setAdminId(user);
         company.setTotalPassenger(0);
+        company.setTotalEmployees(0);
         company.setBlocked(false);
         return companyRepository.save(company);
     }
@@ -57,7 +58,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(readOnly = true)
     @Override
     public Company getById(String id) {
-        return companyRepository.findById(id).orElseThrow(() -> new NotFoundException("COMPANY ID NOT FOUND"));
+        return companyRepository.findById(id).orElseThrow(() ->  new NotFoundException("COMPANY ID NOT FOUND"));
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +68,6 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findAll(pageable);
     }
 
-    @Transactional
     @Override
     public Company addNumberWorker(Company company) {
         company.setTotalEmployees(company.getTotalEmployees() +1);

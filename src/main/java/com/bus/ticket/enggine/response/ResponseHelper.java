@@ -13,11 +13,11 @@ public class ResponseHelper {
         return response;
     }
 
-    public static <T> ResponseEntity<CommonResponseErr<T>> errorResponse(String errors, int status, String message) {
+    public static <T> ResponseEntity<CommonResponseErr<T>> errorResponse(String errors, int status, String message, HttpStatus http) {
         CommonResponseErr<T> response = new CommonResponseErr<>();
         response.setStatus(String.valueOf(status));
         response.setMessage(message);
         response.setError((T) errors);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, http);
     }
 }

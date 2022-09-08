@@ -17,26 +17,21 @@ import java.nio.file.AccessDeniedException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundAdviceController(NotFoundException notFoundException) {
-        return ResponseHelper.errorResponse(notFoundException.getMessage(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name());
-    }
-
-    @ExceptionHandler(value= { IllegalArgumentException.class, IllegalStateException.class })
-    public ResponseEntity<?> handleConflict(RuntimeException ex, WebRequest request) {
-        return ResponseHelper.errorResponse(ex+ " This should be application specific", HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT.name());
+        return ResponseHelper.errorResponse(notFoundException.getMessage(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BussinesException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(BussinesException bussinesException) {
-        return ResponseHelper.errorResponse(bussinesException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name());
+        return ResponseHelper.errorResponse(bussinesException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handlerAccessDeniedException(final Exception ex, final HttpServletRequest request, final HttpServletResponse response) {
-        return ResponseHelper.errorResponse("Access denied", HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.name());
+        return ResponseHelper.errorResponse("Access denied", HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.name(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(UsernameNotFoundException usernameNotFoundException) {
-        return ResponseHelper.errorResponse(usernameNotFoundException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name());
+        return ResponseHelper.errorResponse(usernameNotFoundException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
