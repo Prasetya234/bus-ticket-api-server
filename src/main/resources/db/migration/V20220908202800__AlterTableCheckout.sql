@@ -1,0 +1,2 @@
+ALTER TABLE checkout ADD COLUMN isPurchased TINYINT(1) NOT NULL;
+ALTER TABLE checkout ADD COLUMN expired_date TIMESTAMP NOT NULL;

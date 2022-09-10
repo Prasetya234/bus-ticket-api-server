@@ -32,7 +32,7 @@ public class DestinationController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'EMPLOYEE')")
     @GetMapping
-    public CommonResponse<Page<Destination>> findAll(@RequestParam(name = "page", defaultValue = "10") int page, @RequestParam(name="size", defaultValue = "0") int size){
+    public CommonResponse<Page<Destination>> findAll(@RequestParam(name = "page", defaultValue = "10", required = false) int page, @RequestParam(name="size", defaultValue = "0", required = false) int size){
         return ResponseHelper.successResponse(destinationService.findAll(page, size));
     }
 
