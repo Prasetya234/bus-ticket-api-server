@@ -3,13 +3,18 @@ package com.bus.ticket.web.model;
 
 import com.bus.ticket.enggine.auditing.DateConfig;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -43,9 +48,11 @@ public class Departure extends DateConfig {
     @Column(name = "passenger_total")
     private int passengerTotal;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "payment_type_list", nullable = false)
     private String paymentTypeList;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "facility_list")
     private String facilityList;
 
@@ -61,26 +68,44 @@ public class Departure extends DateConfig {
     @Column(name = "traveling_time_minute")
     private int travelingTimeMinute;
 
-    @Column(name = "departure_status_id")
-    private int departureStatusId;
+    @Column(name = "date_of_departure")
+    private Date dateOfDeparture;
+
+    @ToString.Exclude
+    @Transient
+    private List<String> listPaymentType = new ArrayList<>();
+
+    @ToString.Exclude
+    @Transient
+    private List<String> listFacility = new ArrayList<>();
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_bus")
+    private CompanyEmploye driverBus;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departure_status_id")
+    private DepartureStatus departureStatusId;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promo_id")
     private Promo promoId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company companyId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "start_destination")
     private Destination startDestination;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "end_destination")
     private Destination endDestination;
 }
