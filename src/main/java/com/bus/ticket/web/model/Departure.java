@@ -48,10 +48,12 @@ public class Departure extends DateConfig {
     @Column(name = "passenger_total")
     private int passengerTotal;
 
+    @Lob
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "payment_type_list", nullable = false)
     private String paymentTypeList;
 
+    @Lob
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "facility_list")
     private String facilityList;

@@ -35,6 +35,6 @@ public class DepartureDTO {
     private List<String> listFacility = new ArrayList<>();
     private String companyId;
     private String promoId;
-    private String startDestination;
-    private String endDestination;
+    private int startDestination;
+    private int endDestination;
 }

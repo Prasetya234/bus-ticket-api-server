@@ -4,8 +4,6 @@ import com.bus.ticket.enggine.response.CommonResponse;
 import com.bus.ticket.enggine.response.ResponseHelper;
 import com.bus.ticket.web.dto.CompanyDto;
 import com.bus.ticket.web.model.Company;
-import com.bus.ticket.web.model.CompanyEmploye;
-import com.bus.ticket.web.service.CompanyEmployeService;
 import com.bus.ticket.web.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
