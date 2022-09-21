@@ -2,6 +2,7 @@ package com.bus.ticket.web.model;
 
 
 import com.bus.ticket.enggine.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -70,6 +71,7 @@ public class Departure extends DateConfig {
     @Column(name = "traveling_time_minute")
     private int travelingTimeMinute;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_departure")
     private Date dateOfDeparture;
 

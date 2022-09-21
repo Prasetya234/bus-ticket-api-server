@@ -21,6 +21,7 @@ import java.util.List;
 @Setter
 public class DepartureDTO {
     private float price;
+    private String promoId;
     private String description;
     private int totalWindow;
     private String startLocation;
@@ -33,8 +34,6 @@ public class DepartureDTO {
     private Date dateOfDeparture;
     private List<String> listPaymentType = new ArrayList<>();
     private List<String> listFacility = new ArrayList<>();
-    private String companyId;
-    private String promoId;
     private int startDestination;
     private int endDestination;
 }

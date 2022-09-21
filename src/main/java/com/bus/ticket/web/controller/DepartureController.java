@@ -6,10 +6,8 @@ import com.bus.ticket.web.dto.DepartureDTO;
 import com.bus.ticket.web.model.Departure;
 import com.bus.ticket.web.service.DepartureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/api/departure")
@@ -22,7 +20,12 @@ public class DepartureController {
     }
 
     @PostMapping
-    public CommonResponse<Departure> createDeparture(@RequestBody DepartureDTO departureDTO) {
-        return ResponseHelper.successResponse(departureService.create(departureDTO));
+    public CommonResponse<Departure> createDeparture(@RequestParam("companyId") String companyId, @RequestParam(name ="promoId", required = false) String promoId, @RequestBody DepartureDTO departureDTO) {
+        return ResponseHelper.successResponse(departureService.create(companyId, promoId, departureDTO));
+    }
+
+    @GetMapping
+    public CommonResponse<Page<Departure>> findAllDeparture(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "size", defaultValue = "10") int size) {
+        return ResponseHelper.successResponse(departureService.findAll(page, size));
     }
 }

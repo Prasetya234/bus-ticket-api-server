@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,12 +39,11 @@ public class DepartureServiceImpl implements DepartureService {
 
     @Transactional
     @Override
-    public Departure create(DepartureDTO departureDTO) {
+    public Departure create(String companyId, String promoId,DepartureDTO departureDTO) {
         Departure create = modelMapper.map(departureDTO, Departure.class);
         create.setPassengerTotal(0);
-        if (departureDTO.getPromoId().isEmpty()) create.setPromoId(promoRepository.findById(departureDTO.getPromoId()).orElseThrow(() -> new NotFoundException("Promo ID tidak di temukan")));
-        create.setCompanyId(companyRepository.findById(departureDTO.getCompanyId()).orElseThrow(() -> new NotFoundException("Company ID tidak di temukan")));
-        create.setPromoId(promoRepository.findById(departureDTO.getPromoId()).orElse(null));
+        if (promoId != null) create.setPromoId(promoRepository.findById(promoId).orElseThrow(() -> new NotFoundException("Promo ID tidak di temukan")));
+        create.setCompanyId(companyRepository.findById(companyId).orElseThrow(() -> new NotFoundException("Company ID tidak di temukan")));
         create.setDepartureStatusId(departureStatusRepository.findById(1).get());
         create.setStartDestination(destinationRepository.findById(departureDTO.getStartDestination()).orElseThrow(() -> new NotFoundException("Start Destination ID Not Found")));
         create.setEndDestination(destinationRepository.findById(departureDTO.getStartDestination()).orElseThrow(() -> new NotFoundException("End Destination ID Not Found")));
@@ -51,9 +52,11 @@ public class DepartureServiceImpl implements DepartureService {
         return departureRepository.save(create);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<Departure> findAll(int page, int size) {
-        return null;
+        Pageable pageable = PageRequest.of(page, size);
+        return departureRepository.findAll(pageable);
     }
 
     private Departure getData(String id) {
