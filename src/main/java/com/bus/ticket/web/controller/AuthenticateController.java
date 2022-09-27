@@ -29,8 +29,8 @@ public class AuthenticateController {
         return ResponseHelper.successResponse(userService.create(user));
     }
     @PostMapping("/signin")
-    public CommonResponse<TemporaryToken> signIn(@RequestBody LoginDto user){
-        return ResponseHelper.successResponse(userService.authorities(user));
+    public CommonResponse<TemporaryToken> signIn(@RequestBody LoginDto loginDto){
+        return ResponseHelper.successResponse(userService.authorities(loginDto));
     }
     @GetMapping("/user-active-code/{userId}")
     public CommonResponse<User> active(@PathVariable(name = "userId") String userId, @RequestParam(name = "code") String code) {

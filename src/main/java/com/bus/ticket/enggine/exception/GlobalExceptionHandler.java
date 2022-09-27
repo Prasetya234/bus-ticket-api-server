@@ -1,6 +1,7 @@
 package com.bus.ticket.enggine.exception;
 
 import com.bus.ticket.enggine.response.ResponseHelper;
+import com.xendit.exception.XenditException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,21 +18,26 @@ import java.nio.file.AccessDeniedException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundAdviceController(NotFoundException notFoundException) {
-        return ResponseHelper.errorResponse(notFoundException.getMessage(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name(), HttpStatus.NOT_FOUND);
+        return ResponseHelper.errorResponse(notFoundException.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BussinesException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(BussinesException bussinesException) {
-        return ResponseHelper.errorResponse(bussinesException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseHelper.errorResponse(bussinesException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handlerAccessDeniedException(final Exception ex, final HttpServletRequest request, final HttpServletResponse response) {
-        return ResponseHelper.errorResponse("Access denied", HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.name(), HttpStatus.FORBIDDEN);
+        return ResponseHelper.errorResponse("Access denied", HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(XenditException.class)
+    public ResponseEntity<?> xenditExceprionAdviceController(XenditException xenditException) {
+        return ResponseHelper.errorResponse(xenditException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> bussinesExceprionAdviceController(UsernameNotFoundException usernameNotFoundException) {
-        return ResponseHelper.errorResponse(usernameNotFoundException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseHelper.errorResponse(usernameNotFoundException.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

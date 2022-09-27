@@ -2,9 +2,7 @@ package com.bus.ticket.web.model;
 
 import com.bus.ticket.enggine.auditing.DateConfig;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

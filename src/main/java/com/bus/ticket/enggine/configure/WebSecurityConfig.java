@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             // API controller
             "/v1/api/authenticate/**",
+            "/v1/api/xendit",
             "/"
     };
 
